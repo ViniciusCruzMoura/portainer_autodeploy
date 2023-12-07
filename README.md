@@ -22,8 +22,8 @@
 
 > Baixe o código 
 ```bash
-$ git clone https://source.integrati.cloud/integracoes/cardcredenciamento.git
-$ cd cardcredenciamento
+$ git clone https://github.com/ViniciusCruzMoura/portainer_autodeploy.git
+$ cd portainer_autodeploy
 ```
 
 > Instalar as dependências via `VENV`  
