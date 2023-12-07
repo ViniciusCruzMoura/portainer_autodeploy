@@ -143,7 +143,7 @@ def main() -> int:
         print("COMMAND update")
         sys.exit()
     elif action == "list":
-        print("List of Contaiers Stacks:")
+        print("List of Containers Stacks:")
         for stack in get_stacks():
             print(f"{stack.get('id_stack')} - {stack.get('stack_name')}")
         sys.exit()
