@@ -127,19 +127,19 @@ def main() -> int:
     if PORTAINER_LOGIN and PORTAINER_PASSWORLD:
         PORTAINER_TOKEN = get_token(PORTAINER_LOGIN, PORTAINER_PASSWORLD)
 
-    acao = sys.argv[1]
-    if acao == "help":
+    action = sys.argv[1]
+    if action == "help":
         print("These are common commands used in various situations:")
         print("COMMAND help")
         print("COMMAND list")
         print("COMMAND update")
         sys.exit()
-    elif acao == "list":
+    elif action == "list":
         print("List of Contaiers Stacks:")
         for stack in get_stacks():
             print(f"{stack.get('id_stack')} - {stack.get('stack_name')}")
         sys.exit()
-    elif acao == "status":
+    elif action == "status":
         if len(sys.argv) == 2 or sys.argv[2] is None:
             print("Unknown stack, Try 'list' for more information.")
             sys.exit()        
@@ -159,7 +159,7 @@ def main() -> int:
             print("GitConfig ConfigFilePath: ",detail.get("GitConfig")['ConfigFilePath'])
             #print("Env: ", detail.get("Env"))
         sys.exit()
-    elif acao == "update":
+    elif action == "update":
         if len(sys.argv) == 2 or sys.argv[2] is None:
             print("Unknown stack, Try 'list' for more information.")
             sys.exit()
