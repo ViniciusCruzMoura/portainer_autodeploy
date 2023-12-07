@@ -33,6 +33,11 @@ $ bash install.sh
 $ source .venv/bin/activate
 ```
 
+> Configure as variaveis de ambiente `.env`
+```bash
+$ cat .env #preencha o login, senha e o host
+```
+
 > Iniciar a aplicação
 ```bash
 $ python portainer.py help
