@@ -19,6 +19,9 @@ def get_token(login, passworld) -> str:
         'Content-Type': 'application/json',
     }
     response = requests.request("POST", url, headers=headers, data=payload)
+    if response.status_code >= 300:
+        print(response.text)
+        return None
     token = response.json().get("jwt")
     return token
 
