@@ -33,4 +33,4 @@ if [ ! -f "$BASEDIR/.env" ]; then
     cp .env.example .env
 fi
 
-echo 'Installation complete. Please, configure the .env file with you credentials'
+echo 'Installation complete. Please, configure the .env file with your credentials'
