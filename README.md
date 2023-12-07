@@ -26,16 +26,17 @@ $ git clone https://github.com/ViniciusCruzMoura/portainer_autodeploy.git
 $ cd portainer_autodeploy
 ```
 
-> Instalar as dependências via `VENV`  
+> Instalar as dependências via `VENV`
 ```bash
-$ python3 -m venv .venv
+$ bash install.sh
 $ source .venv/bin/activate
-$ pip install -r requirements.txt
 ```
 
 > Iniciar a aplicação
 ```bash
 $ python portainer.py help
+$ python portainer.py list
+$ python portainer.py update STACK_NAME
 ```
 
 
