@@ -34,12 +34,17 @@ def get_stacks() -> dict:
     response = requests.request("GET", url, headers=headers, data=payload)
     list_stacks = []
     for r in response.json():
-        list_stacks.append(
-            {
-                "id_stack": r.get("Id"),
-                "stack_name": r.get("Name"),
-            }
-        )
+        can_add = True
+        for x in list_stacks:
+            if x.get("stack_name") == r.get("Name"):
+                can_add = False
+        if can_add:
+            list_stacks.append(
+                {
+                    "id_stack": r.get("Id"),
+                    "stack_name": r.get("Name"),
+                }
+            )
     return list_stacks
 
 def has_stack(stack_name) -> bool:
