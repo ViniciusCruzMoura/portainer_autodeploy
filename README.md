@@ -12,10 +12,10 @@
 
 > Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-* Você instalou a versão `3.8` ou superior do `python`.
-* Você tem uma máquina  `Linux`.
-* Você tem o arquivo `.env` com as credencias utilizadas pelo sistema
-* Você leu os guias de `Como usá-lo`.
+* `python` versão `3.8` ou superior.
+* Sistema Operacional `Linux`.
+* `.env` com as configurações
+* Ler o guia `Como usá-lo`.
 
 
 ## ✨ Como usá-lo
