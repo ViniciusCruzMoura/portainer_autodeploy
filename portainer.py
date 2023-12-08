@@ -76,8 +76,10 @@ def get_stack_detail(stack_name) -> dict:
 
 def image_build(img_name) -> bool:
     stack_name = img_name
+    stack_detail = get_stack_detail(stack_name)
+    endpoint = stack_detail.get("EndpointId")
     img_name = str(img_name).replace("_", "").replace(" ", "").replace(".", "").replace("-", "")
-    url = f"{PORTAINER_HOSTNAME}/api/endpoints/2/docker/build?dockerfile=Dockerfile&remote={get_stack_detail(stack_name).get('GitConfig')['URL']}%23main&t={img_name}:latest&t={img_name}:{datetime.datetime.today().strftime('%y.%m.%d')}"
+    url = f"{PORTAINER_HOSTNAME}/api/endpoints/{endpoint}/docker/build?dockerfile=Dockerfile&remote={get_stack_detail(stack_name).get('GitConfig')['URL']}%23main&t={img_name}:latest&t={img_name}:{datetime.datetime.today().strftime('%y.%m.%d')}"
     print(url)
     payload = "{}"
     headers = {
@@ -92,8 +94,9 @@ def image_build(img_name) -> bool:
 
 def image_deploy(stack_name) -> bool:
     stack_detail = get_stack_detail(stack_name)
-    stack_id = stack_detail.get("Id")    
-    url = f"{PORTAINER_HOSTNAME}/api/stacks/{stack_id}/git/redeploy?endpointId=2"
+    stack_id = stack_detail.get("Id")
+    endpoint = stack_detail.get("EndpointId")
+    url = f"{PORTAINER_HOSTNAME}/api/stacks/{stack_id}/git/redeploy?endpointId={endpoint}"
     print(url)
     payload = json.dumps({
       "env": stack_detail.get('Env'),
@@ -161,6 +164,7 @@ def main() -> int:
             print("Id: ",detail.get("Id"))
             print("Name: ",detail.get("Name"))
             print("EntryPoint: ",detail.get("EntryPoint"))
+            print("EndpointId: ",detail.get("EndpointId"))
             #print("ResourceControl: ",detail.get("ResourceControl"))
             print("GitConfig URL: ",detail.get("GitConfig")['URL'])
             print("GitConfig ReferenceName: ",detail.get("GitConfig")['ReferenceName'])
