@@ -138,6 +138,14 @@ def main() -> int:
     if PORTAINER_LOGIN and PORTAINER_PASSWORLD:
         PORTAINER_TOKEN = get_token(PORTAINER_LOGIN, PORTAINER_PASSWORLD)
 
+    github_response = requests.get("https://api.github.com/repos/viniciuscruzmoura/portainer_autodeploy/releases/latest")
+    github_latest_release = github_response.json()["name"]
+    software_version = '23.12.13'
+    if software_version != github_latest_release:
+        print("IMPORTANT MESSAGE!!!\n")
+        print(f"New version available '{github_latest_release}', See what's new ('https://github.com/ViniciusCruzMoura/portainer_autodeploy')")
+        print("\n")
+
     action = sys.argv[1]
     if action == "help":
         print("These are common commands used in various situations:")
