@@ -7,6 +7,11 @@ PORTAINER_LOGIN = config("PORTAINER_LOGIN")
 PORTAINER_PASSWORLD = config("PORTAINER_PASSWORLD")
 PORTAINER_TOKEN = None
 
+GITHUB_API_HOSTNAME = "https://api.github.com"
+GITHUB_OWNER = "viniciuscruzmoura"
+GITHUB_REPO = "portainer_autodeploy"
+SOFTWARE_VERSION = "23.12.12"
+
 def get_token(login, passworld) -> str:
     if login is None or passworld is None:
         return None
@@ -118,33 +123,36 @@ def image_deploy(stack_name) -> bool:
         return False
     return True
 
+def github_check_new_versions():
+    github_response = requests.get(f"{GITHUB_API_HOSTNAME}/repos/{GITHUB_OWNER}/{GITHUB_REPO}/releases/latest")
+    github_latest_release = github_response.json()["name"]
+    software_version = SOFTWARE_VERSION
+    if software_version != github_latest_release:
+        print("IMPORTANT MESSAGE!!!\n")
+        print(f"New version available '{github_latest_release}', See what's new ('https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}')")
+        print("\n")
+
 def main() -> int:
     global PORTAINER_TOKEN, PORTAINER_LOGIN, PORTAINER_PASSWORLD
 
     if len(sys.argv) == 1 or sys.argv[1] is None:
         print("Unknown option, Try 'help' for more information.")
-        sys.exit()
+        return 1
 
     if PORTAINER_HOSTNAME is None or PORTAINER_HOSTNAME == "":
         print("missing PORTAINER_HOSTNAME environment variable")
-        sys.exit()
+        return 1
     if PORTAINER_LOGIN is None or PORTAINER_LOGIN == "":
         print("missing PORTAINER_LOGIN environment variable")
-        sys.exit()
+        return 1
     if PORTAINER_PASSWORLD is None or PORTAINER_PASSWORLD == "":
         print("missing PORTAINER_PASSWORLD environment variable")
-        sys.exit()
+        return 1
 
     if PORTAINER_LOGIN and PORTAINER_PASSWORLD:
         PORTAINER_TOKEN = get_token(PORTAINER_LOGIN, PORTAINER_PASSWORLD)
 
-    github_response = requests.get("https://api.github.com/repos/viniciuscruzmoura/portainer_autodeploy/releases/latest")
-    github_latest_release = github_response.json()["name"]
-    software_version = '23.12.12'
-    if software_version != github_latest_release:
-        print("IMPORTANT MESSAGE!!!\n")
-        print(f"New version available '{github_latest_release}', See what's new ('https://github.com/ViniciusCruzMoura/portainer_autodeploy')")
-        print("\n")
+    github_check_new_versions()
 
     action = sys.argv[1]
     if action == "help":
@@ -152,20 +160,20 @@ def main() -> int:
         print("COMMAND help")
         print("COMMAND list")
         print("COMMAND update")
-        sys.exit()
+        return 0
     elif action == "list":
         print("List of Containers Stacks:")
         for stack in get_stacks():
             print(f"{stack.get('id_stack')} - {stack.get('stack_name')}")
-        sys.exit()
+        return 0
     elif action == "status":
         if len(sys.argv) == 2 or sys.argv[2] is None:
             print("Unknown stack, Try 'list' for more information.")
-            sys.exit()        
+            return 1
         stack_name = sys.argv[2]
         if not has_stack(stack_name):
             print("Stack not found!")
-            sys.exit()
+            return 1
         print("Stack details:")
         detail = get_stack_detail(stack_name)
         if detail:
@@ -178,28 +186,28 @@ def main() -> int:
             print("GitConfig ReferenceName: ",detail.get("GitConfig")['ReferenceName'])
             print("GitConfig ConfigFilePath: ",detail.get("GitConfig")['ConfigFilePath'])
             #print("Env: ", detail.get("Env"))
-        sys.exit()
+        return 0
     elif action == "update":
         if len(sys.argv) == 2 or sys.argv[2] is None:
             print("Unknown stack, Try 'list' for more information.")
-            sys.exit()
+            return 1
         stack_name = sys.argv[2]
         if not has_stack(stack_name):
             print("Stack not found!")
-            sys.exit()
+            return 1
         build_success = image_build(stack_name)
         if not build_success:
             print("Build failed!")
-            sys.exit()
+            return 1
         deploy_success = image_deploy(stack_name)
         if not deploy_success:
             print("Deploy failed!")
-            sys.exit()
+            return 1
         print("Success!")
-        sys.exit()
+        return 0
     else:
         print("Unknown option, Try 'help' for more information.")
-        sys.exit()
+        return 1
 
 if __name__ == '__main__':
     sys.exit(main())
