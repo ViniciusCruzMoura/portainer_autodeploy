@@ -1,4 +1,14 @@
-import requests, json, datetime, sys
+import json, datetime, sys, os, fnmatch
+#Set .venv packages
+try:
+    for py_ver in fnmatch.filter(os.listdir(os.path.join(os.getcwd(), ".venv", "lib")), 'python3.*'):
+        sys.path.append(os.path.join(os.getcwd(), ".venv", "lib", py_ver, "site-packages"))
+        break
+except Exception as err:
+    print(sys.path)
+    print(err)
+    sys.exit(1)
+import requests
 from decouple import config
 
 #Configs
