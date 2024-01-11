@@ -114,6 +114,8 @@ def image_deploy(stack_name) -> bool:
     stack_detail = get_stack_detail(stack_name)
     stack_id = stack_detail.get("Id")
     endpoint = stack_detail.get("EndpointId")
+    if stack_detail.get("GitConfig") is None:
+        return False
     url = f"{PORTAINER_HOSTNAME}/api/stacks/{stack_id}/git/redeploy?endpointId={endpoint}"
     print(url)
     payload = json.dumps({
