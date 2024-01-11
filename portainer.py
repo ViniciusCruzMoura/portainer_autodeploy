@@ -209,6 +209,15 @@ def main() -> int:
             return 1
         print("Success!")
         return 0
+    elif action == "rollback":
+        #choose a image:version
+        return 0
+    elif action == "add":
+        #add a new stack
+        return 0
+    elif action == "remove":
+        #remove a stack
+        return 0
     else:
         print("Unknown option, Try 'help' for more information.")
         return 1
