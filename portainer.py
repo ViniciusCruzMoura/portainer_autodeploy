@@ -141,9 +141,9 @@ def github_check_new_versions() -> None:
     github_latest_release = github_response.json()["name"]
     software_version = SOFTWARE_VERSION
     if software_version != github_latest_release:
-        print("IMPORTANT MESSAGE!!!\n")
+        #print("IMPORTANT MESSAGE!!!\n")
         print(f"New version available '{github_latest_release}', See what's new ('https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}')")
-        print("\n")
+        #print("\n")
 
 def main() -> int:
     global PORTAINER_TOKEN, PORTAINER_LOGIN, PORTAINER_PASSWORLD
