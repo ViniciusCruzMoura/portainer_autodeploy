@@ -186,6 +186,10 @@ def main() -> int:
             print("GitConfig ReferenceName: ",detail.get("GitConfig")['ReferenceName'])
             print("GitConfig ConfigFilePath: ",detail.get("GitConfig")['ConfigFilePath'])
             #print("Env: ", detail.get("Env"))
+            for idx, env in enumerate(detail.get("Env"), start=0):
+                if idx == 0:
+                    print("Env: ")
+                print(" - ", env.get("name"), ":" ,env.get("value"))
         return 0
     elif action == "update":
         if len(sys.argv) == 2 or sys.argv[2] is None:
