@@ -7,7 +7,7 @@ import portainer
 
 app = flask.Flask(__name__)
 
-@app.route("/portainer/deploy/webhook/<action>/<stack_name>", methods = ['POST'])
+@app.route("/portainer/api/v1/webhook/<action>/<stack_name>", methods = ['POST'])
 def webhook(action, stack_name):
     if portainer.main(["portainer.py", action, stack_name]) == 1:
         return flask.Response(status=500)
