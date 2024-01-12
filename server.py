@@ -12,3 +12,11 @@ def webhook(action, stack_name):
     if portainer.main(["portainer.py", action, stack_name]) == 1:
         return flask.Response(status=500)
     return flask.Response(status=200)
+
+def disable_print():
+    import sys, os
+    sys.stdout = open(os.devnull, 'w')
+
+def activate_print():
+    import sys
+    sys.stdout = sys.__stdout__
