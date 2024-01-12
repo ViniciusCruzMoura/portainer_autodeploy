@@ -1,0 +1,15 @@
+version: '3.3'
+services:  
+  web:
+    restart: unless-stopped
+    image: portainer_deploy_webhook:${VERSION:-latest}
+    build: .
+    ports:
+      - ${PORT:-5000}:5000
+    environment:
+      - DOCKER_BUILDKIT=0
+      - PORTAINER_HOSTNAME=${PORTAINER_HOSTNAME}
+      - PORTAINER_LOGIN=${PORTAINER_LOGIN}
+      - PORTAINER_PASSWORLD=${PORTAINER_PASSWORLD}
+    command: >
+      sh -c "flask --app server run --host=0.0.0.0 --port=5000"
