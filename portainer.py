@@ -7,7 +7,7 @@ try:
 except Exception as err:
     print(sys.path)
     print(err)
-    sys.exit(1)
+    #sys.exit(1)
 import requests
 from decouple import config
 
