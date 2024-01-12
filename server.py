@@ -3,7 +3,7 @@ import portainer
 
 # Start webhook server
 # command:
-#   flask --app server run --host=0.0.0.0:5000
+#   flask --app server run --host=0.0.0.0 --port=5000
 
 app = flask.Flask(__name__)
 
@@ -16,4 +16,3 @@ def webhook(action, stack_name):
     if portainer.main(["portainer.py", action, stack_name]) == 1:
         return flask.jsonify({"mensagem": "FALHA", "detalhe": None})
     return flask.jsonify({"mensagem": "SUCESSO", "detalhe": None})
-
