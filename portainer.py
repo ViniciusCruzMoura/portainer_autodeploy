@@ -147,10 +147,10 @@ def github_check_new_versions() -> None:
         print(f"New version available '{github_latest_release}', See what's new ('https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}')")
         #print("\n")
 
-def main() -> int:
+def main(args) -> int:
     global PORTAINER_TOKEN, PORTAINER_LOGIN, PORTAINER_PASSWORLD
 
-    if len(sys.argv) == 1 or sys.argv[1] is None:
+    if len(args) == 1 or args[1] is None:
         print("Unknown option, Try 'help' for more information.")
         return 1
 
@@ -169,7 +169,7 @@ def main() -> int:
 
     github_check_new_versions()
 
-    action = sys.argv[1]
+    action = args[1]
     if action == "help":
         print("These are common commands used in various situations:")
         print("COMMAND help")
@@ -182,10 +182,10 @@ def main() -> int:
             print(f"{stack.get('id_stack')} - {stack.get('stack_name')}")
         return 0
     elif action == "status":
-        if len(sys.argv) == 2 or sys.argv[2] is None:
+        if len(args) == 2 or args[2] is None:
             print("Unknown stack, Try 'list' for more information.")
             return 1
-        stack_name = sys.argv[2]
+        stack_name = args[2]
         if not has_stack(stack_name):
             print("Stack not found!")
             return 1
@@ -208,10 +208,10 @@ def main() -> int:
                 print(" - ", env.get("name"), ":" ,env.get("value"))
         return 0
     elif action == "update":
-        if len(sys.argv) == 2 or sys.argv[2] is None:
+        if len(args) == 2 or args[2] is None:
             print("Unknown stack, Try 'list' for more information.")
             return 1
-        stack_name = sys.argv[2]
+        stack_name = args[2]
         if not has_stack(stack_name):
             print("Stack not found!")
             return 1
@@ -239,4 +239,4 @@ def main() -> int:
         return 1
 
 if __name__ == '__main__':
-    sys.exit(main())
+    sys.exit(main(sys.argv))
