@@ -11,5 +11,3 @@ services:
       - PORTAINER_HOSTNAME=${PORTAINER_HOSTNAME}
       - PORTAINER_LOGIN=${PORTAINER_LOGIN}
       - PORTAINER_PASSWORLD=${PORTAINER_PASSWORLD}
-    command: >
-      sh -c "flask --app server run --host=0.0.0.0 --port=5000"
