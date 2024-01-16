@@ -20,7 +20,7 @@ PORTAINER_TOKEN = None
 GITHUB_API_HOSTNAME = "https://api.github.com"
 GITHUB_OWNER = "viniciuscruzmoura"
 GITHUB_REPO = "portainer_autodeploy"
-SOFTWARE_VERSION = "23.12.12"
+SOFTWARE_VERSION = "24.01.15"
 
 def get_token(login, passworld) -> str:
     if login is None or passworld is None:
