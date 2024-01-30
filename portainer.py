@@ -97,7 +97,10 @@ def image_build(img_name) -> bool:
     git_conf = get_stack_detail(stack_name).get("GitConfig")
     if git_conf is None:
         return False
-    url = f"{PORTAINER_HOSTNAME}/api/endpoints/{endpoint}/docker/build?dockerfile=Dockerfile&remote={git_conf['URL']}%23main&t={img_name}:latest&t={img_name}:{datetime.datetime.today().strftime('%y.%m.%d')}"
+    if len(git_conf['ReferenceName'].split("/")) != 3:
+        print("get branch/tag fail")
+        return False
+    url = f"{PORTAINER_HOSTNAME}/api/endpoints/{endpoint}/docker/build?dockerfile=Dockerfile&remote={git_conf['URL']}%23{git_conf['ReferenceName'].split('/')[2]}&t={img_name}:latest&t={img_name}:{datetime.datetime.today().strftime('%y.%m.%d')}"
     print(url)
     payload = "{}"
     headers = {
