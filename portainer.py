@@ -150,6 +150,42 @@ def github_check_new_versions() -> None:
         print(f"New version available '{github_latest_release}', See what's new ('https://github.com/{GITHUB_OWNER}/{GITHUB_REPO}')")
         #print("\n")
 
+def get_clusters_info():
+    url = f"{PORTAINER_HOSTNAME}/api/endpoints?start=1&limit=10&sort=&order=asc&search=&provisioned=true&tagsPartialMatch=true&updateInformation=false"
+    payload = {}
+    headers = {
+        'Authorization': f'Bearer {PORTAINER_TOKEN}'
+    }
+    response = requests.request("GET", url, headers=headers, data=payload)
+    if response.status_code > 299:
+        return None
+    # print(response.json()[0].get("Snapshots")[0]["DockerSnapshotRaw"]["Images"][0]["Id"])
+    return response.json()    
+
+def remove_image(cluster_id, image_sha):
+    url = f"{PORTAINER_HOSTNAME}/api/endpoints/{cluster_id}/docker/images/{image_sha}"
+    print(url)
+    payload = {}
+    headers = {
+        'Authorization': f'Bearer {PORTAINER_TOKEN}'
+    }
+    response = requests.request("DELETE", url, headers=headers, data=payload)
+    if response.status_code > 299:
+        return None
+    return response.json()
+
+def remove_orphans_images(ignore=[]):
+    clusters = get_clusters_info()
+    for cluster in clusters:
+        cluster_id = cluster.get("Id")
+        for snapshots in cluster.get("Snapshots"):
+            for image in snapshots.get("DockerSnapshotRaw")["Images"]:
+                if any(word in image.get("RepoTags") for word in ignore):
+                    print("Ignore: ", image.get("RepoTags"))
+                    continue
+                image_sha = image.get("Id")
+                remove_image(cluster_id, image_sha)
+
 def main(args) -> int:
     global PORTAINER_TOKEN, PORTAINER_LOGIN, PORTAINER_PASSWORLD
 
@@ -228,6 +264,17 @@ def main(args) -> int:
             return 1
         print("Success!")
         return 0
+    elif action == "prune":
+        print("Removing all orphans images")
+        ignore_list = []
+        if len(args) > 2 and args[2] is not None and args[2] == "ignore":
+            for idx, arg in enumerate(args):
+                if idx <= 2:
+                    continue
+                ignore_list.append(f"{arg}:latest")
+            print("Ignore List", ignore_list)
+        remove_orphans_images(ignore_list)
+        return 0
     elif action == "rollback":
         #choose a image:version
         return 0
@@ -236,7 +283,7 @@ def main(args) -> int:
         return 0
     elif action == "remove":
         #remove a stack
-        return 0
+        return 0    
     else:
         print("Unknown option, Try 'help' for more information.")
         return 1
