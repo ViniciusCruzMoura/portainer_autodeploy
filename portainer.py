@@ -5,8 +5,9 @@ try:
         sys.path.append(os.path.join(os.getcwd(), ".venv", "lib", py_ver, "site-packages"))
         break
 except Exception as err:
-    print(sys.path)
-    print(err)
+    pass
+    # print(sys.path)
+    # print(err)
     #sys.exit(1)
 import requests
 from decouple import config
