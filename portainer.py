@@ -215,6 +215,8 @@ def main(args) -> int:
         print("COMMAND help")
         print("COMMAND list")
         print("COMMAND update")
+        print("COMMAND status")
+        print("COMMAND prune")
         return 0
     elif action == "list":
         print("List of Containers Stacks:")
