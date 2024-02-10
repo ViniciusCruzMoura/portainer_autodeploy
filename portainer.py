@@ -212,11 +212,12 @@ def main(args) -> int:
     action = args[1]
     if action == "help":
         print("These are common commands used in various situations:")
-        print("COMMAND help")
-        print("COMMAND list")
-        print("COMMAND update")
-        print("COMMAND status")
-        print("COMMAND prune")
+        print("COMMAND: ")
+        print("-    help ")
+        print("-    list ")
+        print("-    update ")
+        print("-    status ")
+        print("-    prune ")
         return 0
     elif action == "list":
         print("List of Containers Stacks:")
