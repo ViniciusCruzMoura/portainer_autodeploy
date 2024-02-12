@@ -42,7 +42,9 @@ $ cat .env #preencha o login, senha e o host
 ```bash
 $ python portainer.py help
 $ python portainer.py list
+$ python portainer.py status STACK_NAME
 $ python portainer.py update STACK_NAME
+$ python portainer.py prune
 ```
 
 
