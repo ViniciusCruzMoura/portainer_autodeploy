@@ -144,6 +144,8 @@ def image_deploy(stack_name) -> bool:
 
 def github_check_new_versions() -> None:
     github_response = requests.get(f"{GITHUB_API_HOSTNAME}/repos/{GITHUB_OWNER}/{GITHUB_REPO}/releases/latest")
+    if github_response.status_code > 299:
+        return
     github_latest_release = github_response.json()["name"]
     software_version = SOFTWARE_VERSION
     if software_version != github_latest_release:
