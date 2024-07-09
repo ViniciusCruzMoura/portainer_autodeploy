@@ -16,10 +16,10 @@ com esta ferramenta é possivel utilizar o portainer via command line
 * `python` versão `3.8` ou superior.
 * Sistema Operacional `Linux`.
 * `.env` com as configurações
-* Ler o guia `Como usá-lo`.
+* Ler o guia `Como iniciar a aplicação `.
 
 
-## ✨ Como usá-lo
+## ✨ Como iniciar a aplicação 
 
 > Baixe o código 
 ```bash
