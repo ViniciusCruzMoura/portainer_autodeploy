@@ -4,7 +4,7 @@
 com esta ferramenta é possivel utilizar o portainer via command line
 
 
-## 🎨 Funcionalidades
+## 📜 Funcionalidades
 > Principais serviços disponiveis no sistema:
 - Atualização da Imagem e Redeploy do Container
 
